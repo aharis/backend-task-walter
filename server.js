@@ -1,12 +1,19 @@
 import express from "express";
 import dotenv from "dotenv";
 import dbConect from "./config/dbConect.js";
+import userRouter from "./routes/userRoutes/user.route.js";
+
 
 
 const app = express();
 
+app.use(express.json());
+
 dbConect();
 dotenv.config();
+
+app.use('/user', userRouter)
+
 
 const PORT = process.env.PORT;
 
