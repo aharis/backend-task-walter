@@ -11,9 +11,10 @@ export const registerUser = async (req, res) => {
     }
 
     const user = await User.create({
-        email, 
-        password: CryptoJS.AES.encrypt( JSON.stringify({ password }) , process.env.PASSWORD_SEC_MSG).toString() })
-    
+        email,
+        password: CryptoJS.AES.encrypt(JSON.stringify({ password }), process.env.PASSWORD_SEC_MSG).toString()
+    })
+
     if (user) {
         res.status(201).json({
             email: user.email,
@@ -33,7 +34,7 @@ export const loginUser = async (req, res) => {
 
     const hashedPassword = CryptoJS.AES.decrypt(user.password, process.env.PASSWORD_SEC_MSG)
     const decodedPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
-    if(decodedPassword !== JSON.stringify({password})) return res.status(401).json( "Please, insert corect password!" );
+    if (decodedPassword !== JSON.stringify({ password })) return res.status(401).json("Please, insert corect password!");
 
     if (user) {
         res.json({
@@ -45,3 +46,4 @@ export const loginUser = async (req, res) => {
         res.status(401).json("Invalid Password or Email")
     }
 }
+
