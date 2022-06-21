@@ -21,3 +21,21 @@ export const registerUser = async (req, res) => {
         res.status(400).json("User not found!")
     }
 }
+
+
+export const loginUser = async (req, res) => {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+
+    if (!user) return res.status(401).json({ message: "Please, insert corect email address!" })
+
+    if (user) {
+        res.json({
+             email: user.email,
+             password: user.password,
+         });        
+ 
+     } else {
+          res.status(401).json("Invalid Password or Email")
+     }
+}
