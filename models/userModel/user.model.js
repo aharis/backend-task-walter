@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema({
         required: true,
         minlength: 6
     },
-    
+
 })
 
 

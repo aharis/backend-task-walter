@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 
 export const registerUser = async (req, res) => {
+
     const { email, password } = req.body;
     const existUser = await User.findOne({ email });
 
@@ -32,6 +33,7 @@ export const registerUser = async (req, res) => {
 
 
 export const loginUser = async (req, res) => {
+
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
@@ -63,6 +65,7 @@ export const loginUser = async (req, res) => {
 
 
 export const updateUser = async (req, res) => {
+
     const { password } = req.body
     if (password.length < 6) {
         return res.status(404).json("Password must contained 6 characters or more")
@@ -71,11 +74,13 @@ export const updateUser = async (req, res) => {
     else if (req.body.password) {
         req.body.password = CryptoJS.AES.encrypt(JSON.stringify({ password }), process.env.PASSWORD_SEC_MSG).toString();
     }
+
     try {
         const updatedUser = await User.findByIdAndUpdate(req.params.id, {
             $set: req.body
         }, { new: true })
         return res.status(200).json(updatedUser)
+        
     } catch (error) {
         res.status(500).json('Updated fail!')
     }

@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import dbConect from "./config/dbConect.js";
 import userRouter from "./routes/userRoutes/user.route.js";
-
+import productRouter from "./routes/listRoutes/list.route.js"
 
 
 const app = express();
@@ -13,6 +13,7 @@ dotenv.config();
 dbConect();
 
 app.use('/user', userRouter)
+app.use('/products', productRouter)
 
 
 const PORT = process.env.PORT;
