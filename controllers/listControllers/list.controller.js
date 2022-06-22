@@ -28,9 +28,16 @@ export const createList = async (req, res) => {
  }
 
 
-export const updateList = () => {
+ export const updateList =async (req, res) => {
+    try {
+        const updatedList = await List.findByIdAndUpdate(req.params.id, {$set: req.body}, {new:true})
+        console.log(updatedList)
+        return res.status(201).json(updatedList)
+    } catch (error) {
+        res.status(500).json("Updated fail")
+    }
+ }
 
-}
 
 export const deleteList = () => {
 
