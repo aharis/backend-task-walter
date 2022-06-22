@@ -1,4 +1,4 @@
- import User from "../../models/userModel/user.model.js";
+import User from "../../models/userModel/user.model.js";
 import CryptoJS from "crypto-js";
 import jwt from "jsonwebtoken";
 
@@ -10,7 +10,7 @@ export const registerUser = async (req, res) => {
     if (existUser) {
         return res.status(404).json("Email Alredy Exist")
     }
-    if(password.length<6) {
+    if (password.length < 6) {
         return res.status(404).json("Password must contained 6 characters or more")
     }
 
@@ -61,23 +61,22 @@ export const loginUser = async (req, res) => {
     }
 }
 
+
 export const updateUser = async (req, res) => {
-    console.log(req.body)
-    if (req.body.password) {
-        req.body.password = CryptoJS.AES.encrypt(
-            JSON.stringify(req.body.password)
-            ,
-            process.env.PASSWORD_SEC_MSG
-        ).toString();
+    const { password } = req.body
+    if (password.length < 6) {
+        return res.status(404).json("Password must contained 6 characters or more")
+
+    }
+    else if (req.body.password) {
+        req.body.password = CryptoJS.AES.encrypt(JSON.stringify({ password }), process.env.PASSWORD_SEC_MSG).toString();
     }
     try {
-        const updatedUser = await User.findByIdAndUpdate(req.body._id, {
-           
+        const updatedUser = await User.findByIdAndUpdate(req.params.id, {
             $set: req.body
         }, { new: true })
-        console.log(req.body._id)
-        res.status(200).json(updatedUser)
+        return res.status(200).json(updatedUser)
     } catch (error) {
-        res.status(500).json('Update fail!')
+        res.status(500).json('Updated fail!')
     }
 }
