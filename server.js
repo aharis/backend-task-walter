@@ -9,13 +9,12 @@ const app = express();
 
 app.use(express.json());
 
-dbConect();
 dotenv.config();
+dbConect();
 
 app.use('/user', userRouter)
 
 
 const PORT = process.env.PORT;
-
 
 app.listen(PORT, () => console.log(`Server runnung on port: ${PORT}!`));
