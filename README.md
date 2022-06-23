@@ -45,3 +45,22 @@ https://github.com/aharis/backend-task-walter
 
 3. Install NPM packages
 4. npm start
+
+##### Using the application
+
+ 1. Open Postman or any other API testing application.
+ 2. Setup authorization in Headers containing token that you will get in response when loged in.
+- User example
+- { "email":"someone@someone.com", "password":"password123" }
+
+3. register new user by sending POST request to http://localhost:5000/user/register
+4. login with your credentials with POST request to http://localhost:5000/user/login
+5. change password by sending PUT request to http://localhost:5000/user/update/:id
+
+- Products example
+- { "listName": "List title example", "userId": "userid", "productList": [{"productName":"milk","quantity":3},productName":"sugar", "quantity":4}, {"productName":"flour", "quantity":1}] }
+
+- create new list by sending POST request to http://localhost:5000/products/list
+- update existing list with PUT request to http://localhost:5000/products/update/:id
+- delete existing list with DELTE request to http://localhost:5000/products/delete/id
+- get report by sending GET request to http://localhost:5000/products/stats

@@ -8,6 +8,6 @@ const route = express.Router();
 route.post("/list", verifyToken, createList)
 route.put("/update/:id", verifyToken,  updateList)
 route.delete("/delete/:id",verifyToken, deleteList)
-route.get("/list/stats", verifyToken, getLists)
+route.get("/stats", verifyToken, getLists)
 
 export default route;
