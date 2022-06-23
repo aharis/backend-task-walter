@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 const listSchema = mongoose.Schema({
 
     listName: {

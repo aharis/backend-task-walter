@@ -80,7 +80,7 @@ export const updateUser = async (req, res) => {
             $set: req.body
         }, { new: true })
         return res.status(200).json(updatedUser)
-        
+
     } catch (error) {
         res.status(500).json('Updated fail!')
     }

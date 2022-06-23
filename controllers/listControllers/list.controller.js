@@ -1,5 +1,6 @@
 import List from "../../models/listModel/list.model.js"
 
+
 export const createList = async (req, res) => {
     const { listName, userId, productList } = req.body;
     const existList = await List.findOne({ listName });
@@ -45,5 +46,41 @@ export const deleteList = async (req, res) => {
         return res.status(200).json('List successfully deleted !')
     } catch (error) {
         res.status(500).json('List delete fail!')
+    }
+}
+
+
+export const getLists = async (req, res, next) => {
+
+    const { startDate, endDate } = req.body;
+
+    try {
+
+        const result = await List.aggregate([
+            {
+                $match: {
+                    createdAt: {
+                        $gte: new Date(startDate),
+                        $lte: new Date(endDate)
+                    }
+                }
+            },
+            { $unwind: "$productList" },
+            {
+                $group: {
+                    _id: "$productList.productName",
+                    balance: { $sum: "$productList.quantity" }
+                }
+            },
+            {
+                $addFields: {
+                    productName: "$_id",
+                    _id: "$$REMOVE"
+                }
+            }
+        ])
+        res.status(200).json(result)
+    } catch (error) {
+        res.status(500).json('Get lists fail!')
     }
 }
